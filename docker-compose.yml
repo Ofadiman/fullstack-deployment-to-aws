@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  client:
+    container_name: client
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: npm run dev:client
+    environment:
+      # Environment variables set for convenience during local development.
+      # Source: https://create-react-app.dev/docs/advanced-configuration
+      TSC_COMPILE_ON_ERROR: 'true'
+      DISABLE_ESLINT_PLUGIN: 'true'
+
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+      args:
+        - user_id=$UID
+        - group_id=$GID
+        - user=$USER
+    ports:
+      - '3001:3001'
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+    links:
+      - database
+    working_dir: /app
+    command: npm run dev:api
+
+  database:
+    container_name: database
+    image: library/postgres:13.4-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - type: volume
+        source: database
+        target: /var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+volumes:
+  database:

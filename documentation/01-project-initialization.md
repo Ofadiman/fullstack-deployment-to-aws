@@ -64,3 +64,9 @@ nest new api
 ```
 
 NOTE: The `create-react-app` and `nest` packages must be installed locally to create projects. Alternatively, we can also use the `npx` utility.
+
+## Write code
+
+The final step in initializing the project is to write code that will allow us to deploy applications that more closely resemble production applications. Typical web applications communicate through REST APIs with backend applications. The data in the backend application is validated, and then the business logic is executed and written to the database.
+
+In my case, I will create an app that will allow me to save posts that will be displayed in the browser. I will be using `docker` and `docker-compose` during application development.
