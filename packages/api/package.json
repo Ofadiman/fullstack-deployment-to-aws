@@ -8,15 +8,18 @@
   "scripts": {
     "build": "rimraf dist && nest build",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
-    "start:dev": "nest start --watch",
+    "start:dev": "NODE_ENV=development nest start --watch",
     "start:prod": "node dist/main",
-    "test:ci": "jest",
-    "test:watch": "jest --watch"
+    "test:ci": "NODE_ENV=test jest",
+    "test:watch": "NODE_ENV=test jest --watch"
   },
   "dependencies": {
     "@nestjs/common": "^8.2.5",
+    "@nestjs/config": "^1.1.6",
     "@nestjs/core": "^8.2.5",
     "@nestjs/platform-express": "^8.2.5",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.2"
