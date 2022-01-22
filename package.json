@@ -4,10 +4,12 @@
   "scripts": {
     "dev:api": "lerna run start:dev --scope=@fullstack-deployment-to-aws/api --stream",
     "dev:client": "lerna run start:dev --scope=@fullstack-deployment-to-aws/client --stream",
-    "prettier:write": "prettier . --write"
+    "prettier:write": "prettier . --write",
+    "swagger:regenerate": "sh scripts/openapi.sh"
   },
   "devDependencies": {
     "lerna": "^4.0.0",
+    "openapi-typescript-codegen": "^0.13.0",
     "prettier": "^2.5.1"
   }
 }
