@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { NotesRepository } from './notes.repository'
-import { CreateNoteBodyDto, DeleteNoteParamsDto, NoteDto } from './note.dto'
+import { CreateNoteBodyDto, DeleteNoteParamsDto, NoteDto } from './notes.dto'
 
 @Injectable()
 export class NotesService {

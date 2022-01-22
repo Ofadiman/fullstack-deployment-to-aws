@@ -2,10 +2,10 @@ import { HttpStatus, INestApplication } from '@nestjs/common'
 import { AppModule } from '../app.module'
 import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
-import { CreateNoteBodyDto } from './note.dto'
 import { getConnection, Connection } from 'typeorm'
 import { NoteEntity } from './note.entity'
 import { Repository } from 'typeorm/repository/Repository'
+import { CreateNoteBodyDto } from './notes.dto'
 
 const firstNote = {
   description: 'Capios cantare!'
