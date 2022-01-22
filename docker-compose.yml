@@ -48,6 +48,9 @@ services:
       - type: volume
         source: database
         target: /var/lib/postgresql/data/
+      - type: bind
+        source: ./packages/api/sql/
+        target: /docker-entrypoint-initdb.d/
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
