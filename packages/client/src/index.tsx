@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { NotesService, OpenAPI } from './openapi'
 
 OpenAPI.BASE = process.env.REACT_APP_BACKEND_URL ?? ''
-console.log(`REACT_APP_BACKEND_URL: ${OpenAPI.BASE}`)
+
 const notesApi = {
   createNote: NotesService.notesControllerCreateNote,
   getAllNotes: NotesService.notesControllerGetAllNotes,

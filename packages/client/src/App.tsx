@@ -107,7 +107,12 @@ export function App(props: AppProps) {
             <TableBody>
               {notes.map((note) => {
                 return (
-                  <TableRow key={note.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableRow
+                    key={note.id}
+                    id={note.id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    data-testid={'table-row'}
+                  >
                     <TableCell component="th" scope="row">
                       {note.id}
                     </TableCell>
