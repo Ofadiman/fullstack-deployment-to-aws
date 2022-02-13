@@ -9,7 +9,7 @@
     "build": "rimraf dist && nest build",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "start:dev": "NODE_ENV=development nest start --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "test:ci": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "typeorm": "ts-node --require tsconfig-paths/register node_modules/typeorm/cli.js"
