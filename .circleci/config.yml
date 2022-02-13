@@ -38,6 +38,9 @@ jobs:
       - checkout
       - bootstrap_project
       - run:
+          name: Build api package
+          command: npx lerna run build --scope=@fullstack-deployment-to-aws/api
+      - run:
           name: Run tests
           command: npx lerna run test:ci --stream
 
