@@ -94,14 +94,11 @@ workflows:
     jobs:
       - run_tests
       - build_packages
-      - build_and_push_image:
-          aws_access_key_id: AWS_ACCESS_KEY_ID
-          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
-          aws_ecr_url: AWS_ECR_URL
-          aws_region: AWS_REGION
-          dockerfile: packages/api/prod.Dockerfile
-          repo: AWS_ECR_REPO
-          tag: ${CIRCLE_SHA1},latest
+      - aws-ecr/build-and-push-image:
+          dockerfile: prod.Dockerfile
+          path: packages/api
+          repo: '${AWS_ECR_REPO}'
+          tag: '${CIRCLE_SHA1}'
           requires:
             - run_tests
             - build_packages
