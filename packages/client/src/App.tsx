@@ -58,7 +58,7 @@ export function App(props: AppProps) {
         console.debug(`[DEBUG] ${JSON.stringify(error)}`)
       }
     })()
-  }, [])
+  }, [props.notesApi])
 
   return (
     <Paper
