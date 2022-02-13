@@ -1,0 +1,45 @@
+version: 2.1
+
+executors:
+  node_with_postgres:
+    docker:
+      - image: cimg/node:16.13.2
+        environment:
+          NODE_ENV: test
+          POSTGRES_DATABASE: postgres
+          POSTGRES_HOST: localhost
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: postgres
+          SERVER_PORT: 3001
+      - image: cimg/postgres:13.4
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+
+jobs:
+  run_tests:
+    executor: node_with_postgres
+    steps:
+      - run:
+          name: Run tests
+          command: npx lerna run test:ci --stream
+
+  build_packages:
+    executor: cimg/node:16.13.2
+    steps:
+      - run:
+          name: Build packages
+          command: npx lerna run build --stream
+
+workflows:
+  countinuous_integration:
+    jobs:
+      - checkout
+      - run_tests:
+          requires:
+            - checkout
+      - build_packages:
+          requires:
+            - checkout
