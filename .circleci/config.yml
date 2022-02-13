@@ -11,6 +11,7 @@ executors:
       - image: cimg/node:16.13.2
   node_with_postgres:
     docker:
+      # Use the Node.js image to run the main container.
       - image: cimg/node:16.13.2
         environment:
           NODE_ENV: test
@@ -20,6 +21,7 @@ executors:
           POSTGRES_PORT: 5432
           POSTGRES_USER: postgres
           SERVER_PORT: 3001
+      # Use the PostgreSQL image to run an additional container that will be available at jobs runtime using this executor.
       - image: cimg/postgres:13.4
         environment:
           POSTGRES_USER: postgres
