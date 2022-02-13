@@ -58,37 +58,6 @@ jobs:
           name: Build packages
           command: npx lerna run build --stream
 
-  build_and_push_image:
-    executor:
-      name: aws-ecr/default
-      use-docker-layer-caching: true
-    parameters:
-      aws_access_key_id:
-        type: env_var_name
-      aws_secret_access_key:
-        type: env_var_name
-      aws_ecr_url:
-        type: env_var_name
-      aws_region:
-        type: env_var_name
-      repo:
-        type: env_var_name
-      dockerfile:
-        type: string
-      tag:
-        type: string
-    steps:
-      - aws-ecr/build-and-push-image:
-          attach-workspace: true
-          aws-access-key-id: << parameters.aws_access_key_id >>
-          aws-secret-access-key: << parameters.aws_secret_access_key >>
-          account-url: << parameters.aws_ecr_url >>
-          dockerfile: << parameters.dockerfile >>
-          no-output-timeout: 20m
-          region: << parameters.aws_region >>
-          repo: << parameters.repo >>
-          tag: << parameters.tag >>
-
 workflows:
   countinuous_integration:
     jobs:
