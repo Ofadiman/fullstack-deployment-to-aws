@@ -21,11 +21,22 @@ executors:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
 
+commands:
+  bootstrap_project:
+    steps:
+      - run:
+          name: Install root dependecies
+          command: npm ci
+      - run:
+          name: Bootstrap packages
+          command: npx lerna bootstrap
+
 jobs:
   run_tests:
     executor: node_with_postgres
     steps:
       - checkout
+      - bootstrap_project
       - run:
           name: Run tests
           command: npx lerna run test:ci --stream
@@ -34,6 +45,7 @@ jobs:
     executor: node
     steps:
       - checkout
+      - bootstrap_project
       - run:
           name: Build packages
           command: npx lerna run build --stream
