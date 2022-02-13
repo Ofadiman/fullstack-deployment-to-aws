@@ -22,6 +22,7 @@ jobs:
   run_tests:
     executor: node_with_postgres
     steps:
+      - checkout
       - run:
           name: Run tests
           command: npx lerna run test:ci --stream
@@ -29,6 +30,7 @@ jobs:
   build_packages:
     executor: cimg/node:16.13.2
     steps:
+      - checkout
       - run:
           name: Build packages
           command: npx lerna run build --stream
@@ -36,10 +38,5 @@ jobs:
 workflows:
   countinuous_integration:
     jobs:
-      - checkout
-      - run_tests:
-          requires:
-            - checkout
-      - build_packages:
-          requires:
-            - checkout
+      - run_tests
+      - build_packages
