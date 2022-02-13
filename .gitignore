@@ -133,3 +133,7 @@ dist
 
 # Environment Variables
 .env*
+
+# Terraform
+.terraform
+terraform.tfstate
