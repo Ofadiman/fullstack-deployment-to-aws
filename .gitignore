@@ -139,3 +139,7 @@ dist
 .terraform.tfstate.lock.info
 terraform.tfstate
 terraform.tfstate.backup
+variables.secret.tf
+
+# Personal files that should not be committed
+.personal

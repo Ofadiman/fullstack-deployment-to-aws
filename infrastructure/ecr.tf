@@ -1,3 +1,3 @@
-resource "aws_ecr_repository" "api_image_repository" {
-  name = "api_image_repository"
+resource "aws_ecr_repository" "fullstack_deployment_to_aws_api" {
+  name = "fullstack_deployment_to_aws_api"
 }
