@@ -67,7 +67,6 @@ workflows:
       - build_packages
       - aws-ecr/build-and-push-image:
           dockerfile: prod.Dockerfile
-          path: packages/api
           repo: '${AWS_ECR_REPO}'
           tag: '${CIRCLE_SHA1}'
           requires:

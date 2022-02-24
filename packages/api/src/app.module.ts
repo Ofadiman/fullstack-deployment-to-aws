@@ -6,9 +6,30 @@ import { DatabaseModule } from './database/database.module'
 import { NotesModule } from './notes/notes.module'
 import { APP_PIPE } from '@nestjs/core'
 import { ValidationError } from 'class-validator/types/validation/ValidationError'
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { ConfigurationService } from './configuration/configuration.service'
+import { join } from 'path'
 
 @Module({
-  imports: [ConfigurationModule, DatabaseModule, NotesModule],
+  imports: [
+    ConfigurationModule,
+    DatabaseModule,
+    NotesModule,
+    ServeStaticModule.forRootAsync({
+      imports: [ConfigurationModule],
+      inject: [ConfigurationService],
+      useFactory: async (configurationService: ConfigurationService) => {
+        if (configurationService.isRemote) {
+          return [
+            {
+              rootPath: join(process.cwd(), 'build')
+            }
+          ]
+        }
+        return []
+      }
+    })
+  ],
   controllers: [AppController],
   providers: [
     AppService,

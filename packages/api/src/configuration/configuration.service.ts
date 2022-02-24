@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { EnvironmentVariables } from './enums/environment-variables.enum'
 import { TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { NodeEnv } from './dto/environment-variables.dto'
+
+const REMOTE_ENVIRONMENTS: NodeEnv[] = [NodeEnv.Staging, NodeEnv.Production]
 
 @Injectable()
 export class ConfigurationService {
@@ -35,5 +38,11 @@ export class ConfigurationService {
     }
 
     return typeOrmModuleOptions
+  }
+
+  public get isRemote(): boolean {
+    const nodeEnv: NodeEnv = this.get(EnvironmentVariables.NodeEnv)
+
+    return REMOTE_ENVIRONMENTS.includes(nodeEnv)
   }
 }
