@@ -14,7 +14,7 @@ provider "aws" {
     tags = {
       environment = "staging"
       owner       = "ofadiman"
-      project     = "fullstack-deployment-to-aws"
+      project     = "fullstack_deployment_to_aws"
       iac         = "terraform"
     }
   }

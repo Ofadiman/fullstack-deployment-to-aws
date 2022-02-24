@@ -17,3 +17,9 @@ validate:
 
 format:
 	@terraform fmt
+
+output:
+	@terraform output -json
+
+refresh:
+	@aws-vault exec ${aws_vault_account} -- terraform refresh
