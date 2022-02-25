@@ -62,6 +62,16 @@ resource "aws_subnet" "database_subnet_eu_west_1a" {
   }
 }
 
+resource "aws_subnet" "database_subnet_eu_west_1b" {
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.21.0/24"
+  availability_zone = "eu-west-1b"
+
+  tags = {
+    Name = "database_subnet_eu_west_1b"
+  }
+}
+
 resource "aws_internet_gateway" "main_internet_gateway" {
   vpc_id = aws_vpc.main_vpc.id
 
