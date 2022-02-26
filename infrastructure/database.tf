@@ -18,16 +18,17 @@ resource "aws_db_instance" "database" {
   password = random_password.database_password.result
   username = "ofadiman"
 
-  allocated_storage      = 20
-  availability_zone      = "eu-west-1a"
-  db_subnet_group_name   = aws_db_subnet_group.database_subnet_group.name
-  engine                 = "postgres"
-  engine_version         = "13.4"
-  instance_class         = "db.t4g.micro"
-  max_allocated_storage  = 30
-  multi_az               = false
-  skip_final_snapshot    = true
-  vpc_security_group_ids = []
+  allocated_storage     = 20
+  availability_zone     = "eu-west-1a"
+  db_subnet_group_name  = aws_db_subnet_group.database_subnet_group.name
+  engine                = "postgres"
+  engine_version        = "13.4"
+  instance_class        = "db.t4g.micro"
+  max_allocated_storage = 30
+  multi_az              = false
+  skip_final_snapshot   = true
+  # I temporarily put the default SG here because AWS won't let you remove it.
+  vpc_security_group_ids = ["sg-099826c6c4eb915e5"]
 
   # I think this is how the default encryption is defined.
   storage_encrypted = true
