@@ -75,7 +75,7 @@ resource "aws_ecs_task_definition" "main_ecs_cluster_task_definition" {
   container_definitions = jsonencode([
     {
       essential   = true
-      image       = "715820034474.dkr.ecr.eu-west-1.amazonaws.com/fullstack_deployment_to_aws:fedd67d8275673cf5c4a6c6972f333438b245bdd"
+      image       = "715820034474.dkr.ecr.eu-west-1.amazonaws.com/fullstack_deployment_to_aws:latest"
       name        = "fullstack"
       networkMode = "awsvpc"
       portMappings = [
@@ -84,6 +84,8 @@ resource "aws_ecs_task_definition" "main_ecs_cluster_task_definition" {
           hostPort      = 80
         }
       ],
+      cpu    = 256
+      memory = 512
       environment : [
         # POSTGRES_DATABASE=postgres
         # POSTGRES_HOST=localhost
@@ -144,11 +146,11 @@ resource "aws_security_group" "main_ecs_service_security_group" {
 }
 
 resource "aws_ecs_service" "main_ecs_service" {
-  name            = "MainEcsService"
-  cluster         = aws_ecs_cluster.main_ecs_cluster.id
-  task_definition = aws_ecs_task_definition.main_ecs_cluster_task_definition.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  name             = "MainEcsService"
+  cluster          = aws_ecs_cluster.main_ecs_cluster.id
+  task_definition  = aws_ecs_task_definition.main_ecs_cluster_task_definition.arn
+  desired_count    = 1
+  launch_type      = "FARGATE"
   platform_version = "1.3.0"
 
   network_configuration {
