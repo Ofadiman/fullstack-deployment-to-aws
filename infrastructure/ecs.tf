@@ -149,13 +149,13 @@ resource "aws_ecs_service" "main_ecs_service" {
   name             = "MainEcsService"
   cluster          = aws_ecs_cluster.main_ecs_cluster.id
   task_definition  = aws_ecs_task_definition.main_ecs_cluster_task_definition.arn
-  desired_count    = 1
+  desired_count    = 2
   launch_type      = "FARGATE"
   platform_version = "1.3.0"
 
   network_configuration {
     security_groups  = [aws_security_group.main_ecs_service_security_group.id]
-    subnets          = [aws_subnet.private_subnet_eu_west_1a.id]
+    subnets          = [aws_subnet.private_subnet_eu_west_1a.id, aws_subnet.private_subnet_eu_west_1b.id]
     assign_public_ip = true
   }
 

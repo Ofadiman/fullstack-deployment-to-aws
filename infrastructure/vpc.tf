@@ -13,7 +13,7 @@ resource "aws_vpc" "main_vpc" {
   }
 }
 
-resource "aws_route_table" "public_route_table" {
+resource "aws_route_table" "route_table_for_internet_gateway" {
   vpc_id = aws_vpc.main_vpc.id
 
   route {
@@ -22,27 +22,42 @@ resource "aws_route_table" "public_route_table" {
   }
 
   tags = {
-    Name = "public_route_table"
+    Name = "route_table_for_internet_gateway"
   }
 }
 
-resource "aws_route_table_association" "public_route_table_association" {
-  route_table_id = aws_route_table.public_route_table.id
+
+resource "aws_route_table_association" "public_route_table_association_1a" {
+  route_table_id = aws_route_table.route_table_for_internet_gateway.id
   subnet_id      = aws_subnet.public_subnet_eu_west_1a.id
 }
 
-resource "aws_route_table" "private_route_table_for_nat" {
+resource "aws_route_table_association" "public_route_table_association_1b" {
+  route_table_id = aws_route_table.route_table_for_internet_gateway.id
+  subnet_id      = aws_subnet.public_subnet_eu_west_1b.id
+}
+
+resource "aws_route_table" "route_table_for_nat_gateway" {
   vpc_id = aws_vpc.main_vpc.id
 
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.public_nat_gateway.id
   }
+
+  tags = {
+    Name = "route_table_for_nat_gateway"
+  }
 }
 
 resource "aws_route_table_association" "public_route_table_for_nat_association" {
-  route_table_id = aws_route_table.private_route_table_for_nat.id
+  route_table_id = aws_route_table.route_table_for_nat_gateway.id
   subnet_id      = aws_subnet.private_subnet_eu_west_1a.id
+}
+
+resource "aws_route_table_association" "public_route_table_for_nat_association_1b" {
+  route_table_id = aws_route_table.route_table_for_nat_gateway.id
+  subnet_id      = aws_subnet.private_subnet_eu_west_1b.id
 }
 
 resource "aws_subnet" "public_subnet_eu_west_1a" {
@@ -74,6 +89,16 @@ resource "aws_subnet" "private_subnet_eu_west_1a" {
 
   tags = {
     Name = "private_subnet_eu_west_1a"
+  }
+}
+
+resource "aws_subnet" "private_subnet_eu_west_1b" {
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.11.0/24"
+  availability_zone = "eu-west-1b"
+
+  tags = {
+    Name = "private_subnet_eu_west_1b"
   }
 }
 
