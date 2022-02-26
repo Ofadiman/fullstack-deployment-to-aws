@@ -13,6 +13,25 @@ resource "random_password" "database_password" {
   special = false
 }
 
+resource "aws_security_group" "database_security_group" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    security_groups = [aws_security_group.main_ecs_service_security_group.id]
+  }
+
+  # Terraform requires to explicitly specify egress rule that allows outbound traffic to the internet.
+  egress {
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_db_instance" "database" {
   db_name  = "postgres"
   password = random_password.database_password.result
@@ -27,8 +46,8 @@ resource "aws_db_instance" "database" {
   max_allocated_storage = 30
   multi_az              = false
   skip_final_snapshot   = true
-  # I temporarily put the default SG here because AWS won't let you remove it.
-  vpc_security_group_ids = ["sg-099826c6c4eb915e5"]
+
+  vpc_security_group_ids = [aws_security_group.database_security_group.id]
 
   # I think this is how the default encryption is defined.
   storage_encrypted = true

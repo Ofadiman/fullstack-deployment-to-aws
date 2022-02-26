@@ -31,6 +31,20 @@ resource "aws_route_table_association" "public_route_table_association" {
   subnet_id      = aws_subnet.public_subnet_eu_west_1a.id
 }
 
+resource "aws_route_table" "private_route_table_for_nat" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.public_nat_gateway.id
+  }
+}
+
+resource "aws_route_table_association" "public_route_table_for_nat_association" {
+  route_table_id = aws_route_table.private_route_table_for_nat.id
+  subnet_id      = aws_subnet.private_subnet_eu_west_1a.id
+}
+
 resource "aws_subnet" "public_subnet_eu_west_1a" {
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = "10.0.0.0/24"
@@ -91,31 +105,16 @@ resource "aws_internet_gateway" "main_internet_gateway" {
   }
 }
 
-resource "aws_security_group" "security_group_allow_http_ssh" {
-  name        = "my_web_security"
-  description = "Allow http,ssh,icmp"
-  vpc_id      = aws_vpc.main_vpc.id
+resource "aws_eip" "nat_gateway_ip" {
+  vpc = true
+  # Internet Gateway MUST be present in the VPC for EIP to work.
+  depends_on = [aws_internet_gateway.main_internet_gateway]
+}
 
-  ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+resource "aws_nat_gateway" "public_nat_gateway" {
+  allocation_id = aws_eip.nat_gateway_ip.id
+  subnet_id     = aws_subnet.public_subnet_eu_west_1a.id
+  # To ensure proper ordering, it is recommended to add an explicit dependency
+  # on the Internet Gateway for the VPC.
+  depends_on = [aws_internet_gateway.main_internet_gateway]
 }
