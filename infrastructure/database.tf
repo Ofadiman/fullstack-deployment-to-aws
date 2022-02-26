@@ -1,5 +1,5 @@
 resource "aws_db_subnet_group" "database_subnet_group" {
-  name       = "database_subnet_group"
+  name = "database_subnet_group"
   # AWS requires to have at least 2 subnets here (probably for multi-AZ).
   subnet_ids = [aws_subnet.database_subnet_eu_west_1a.id, aws_subnet.database_subnet_eu_west_1b.id]
 
