@@ -82,7 +82,7 @@ export function App(props: AppProps) {
           </Grid>
           <Grid item xs={12}>
             <Button fullWidth={true} type={'submit'}>
-              Submit
+              Submit (min 10 characters)
             </Button>
           </Grid>
         </Grid>
