@@ -20,7 +20,7 @@ resource "aws_security_group" "database_security_group" {
     protocol        = "tcp"
     from_port       = 5432
     to_port         = 5432
-    security_groups = [aws_security_group.main_ecs_service_security_group.id]
+    security_groups = [aws_security_group.main_ecs_service_security_group.id, aws_security_group.bastion_security_group.id]
   }
 
   # Terraform requires to explicitly specify egress rule that allows outbound traffic to the internet.
