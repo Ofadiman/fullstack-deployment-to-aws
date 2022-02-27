@@ -14,12 +14,23 @@ resource "aws_iam_policy" "circle_ci_user_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid : "AllowAllActions",
+        Sid : "AllowAllActionsOnECR",
         Action = [
           "ecr:*",
         ]
         Effect   = "Allow"
         Resource = aws_ecr_repository.ecr_repository.arn
+      },
+      {
+        Sid : "AllowDescribeTaskDefinition",
+        Action = [
+          "ecs:DescribeTaskDefinition",
+          "ecs:RegisterTaskDefinition",
+          "ecs:UpdateService",
+          "iam:PassRole"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
       },
       # Action ecr:GetAuthorizationToken must be allowed on "*" resource because AWS throws an error.
       {
