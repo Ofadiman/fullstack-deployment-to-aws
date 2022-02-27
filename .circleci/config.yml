@@ -76,3 +76,13 @@ workflows:
             branches:
               only:
                 - main
+      - aws-ecs/deploy-service-update:
+          cluster-name: MainEcsCluster
+          container-image-name-updates: 'container=fullstack,tag=${CIRCLE_SHA1}'
+          family: MainEcsClusterTaskDefinition
+          requires:
+            - aws-ecr/build-and-push-image
+          filters:
+            branches:
+              only:
+                - main

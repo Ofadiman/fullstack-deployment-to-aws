@@ -31,6 +31,10 @@ export function App(props: AppProps) {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
 
+    if (description.length < 10) {
+      window.alert('Minimum description length is 10!')
+    }
+
     const createdNote = await props.notesApi.createNote({ description })
     setDescription('')
     setNotes((prevNotes) => [...prevNotes, createdNote])
