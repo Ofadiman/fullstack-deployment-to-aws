@@ -75,7 +75,7 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - ignore
       - aws-ecs/deploy-service-update:
           cluster-name: MainEcsCluster
           container-image-name-updates: 'container=fullstack,tag=${CIRCLE_SHA1}'
@@ -86,4 +86,4 @@ workflows:
           filters:
             branches:
               only:
-                - main
+                - ignore

@@ -135,10 +135,8 @@ dist
 .env*
 
 # Terraform
-.terraform
-.terraform.tfstate.lock.info
-terraform.tfstate
-terraform.tfstate.backup
+infrastructure/.terraform
+infrastructure/terraform.tfstate*
 variables.secret.tf
 
 # Personal files that should not be committed
